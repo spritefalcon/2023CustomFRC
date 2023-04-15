@@ -12,9 +12,12 @@
  * Runs the motors with tank steering and an Xbox controller.
  */
 class Robot : public frc::TimedRobot {
-  frc::PWMSparkMax m_leftMotor{0};
-  frc::PWMSparkMax m_rightMotor{1};
-  frc::DifferentialDrive m_robotDrive{m_leftMotor, m_rightMotor};
+  frc::PWMSparkMax m_shooterMotor{4};
+  frc::PWMSparkMax m_rightMotorF{0};
+  frc::PWMSparkMax m_rightMotorB{1};
+  frc::PWMSparkMax m_leftMotorF{2};
+  frc::PWMSparkMax m_leftMotorB{3};
+  //frc::DifferentialDrive m_robotDrive{m_leftMotor, m_rightMotor};
   frc::XboxController m_driverController{0};
 
  public:
@@ -22,7 +25,11 @@ class Robot : public frc::TimedRobot {
     
   }
   void TeleopPeriodic() override {
-    m_rightMotor.Set(m_driverController.GetLeftY());
+    m_leftMotorF.Set(-m_driverController.GetLeftY());
+    m_leftMotorB.Set(-m_driverController.GetLeftY());
+    m_rightMotorF.Set(m_driverController.GetRightY());
+    m_rightMotorB.Set(m_driverController.GetRightY());
+    m_shooterMotor.Set(m_driverController.GetAButton());
   }
 };
 
